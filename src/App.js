@@ -34,7 +34,7 @@ function App() {
 
   return (
     <div className="x-spell-check">
-      <h1>XSpellCheck</h1>
+      <h1>Spell Check and Auto-Correction</h1>
       <textarea
         value={inputText}
         onChange={handleInputChange}
