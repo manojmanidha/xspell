@@ -1,25 +1,48 @@
-import logo from './logo.svg';
 import './App.css';
+import React, { useState } from 'react';
 
 function App() {
+  const [inputText, setInputText] = useState('');
+  const [correction, setCorrection] = useState(null);
+
+  const customDictionary = {
+    teh: "the",
+    wrok: "work",
+    fot: "for",
+    exampl: "example"
+  };
+
+  const handleInputChange = (e) => {
+    const text = e.target.value;
+    setInputText(text);
+    checkSpelling(text);
+  };
+
+  const checkSpelling = (text) => {
+    const words = text.split(/\s+/);
+    for (const word of words) {
+      // console.log(word)
+      const lowerCaseWord = word.toLowerCase();
+      if (customDictionary.hasOwnProperty(lowerCaseWord)) {
+        const correctedSpelling = customDictionary[lowerCaseWord];
+        setCorrection(`Did you mean: ${correctedSpelling}?`);
+        return;
+      }
+    }
+    setCorrection(null);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="x-spell-check">
+      <h1>XSpellCheck</h1>
+      <textarea
+        value={inputText}
+        onChange={handleInputChange}
+        placeholder="Type here..."
+      />
+      {correction && <p>{correction}</p>}
     </div>
   );
-}
+};
 
 export default App;
